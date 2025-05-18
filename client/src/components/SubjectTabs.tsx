@@ -19,7 +19,7 @@ const SubjectTabs: React.FC<SubjectTabsProps> = ({ activeSubject, onSelectSubjec
                 ? "text-blue-600"
                 : "text-gray-500 hover:text-gray-700"
             } whitespace-nowrap py-2 px-1 font-normal text-xs`}
-            onClick={() => onSelectSubject(null)}
+            onClick={() => setActiveSubject(null)}
           >
             الكل
           </button>
@@ -33,7 +33,7 @@ const SubjectTabs: React.FC<SubjectTabsProps> = ({ activeSubject, onSelectSubjec
                   ? "text-foreground font-bold"
                   : "text-muted-foreground hover:text-foreground"
               )}
-              onClick={() => onSelectSubject(subject.id)}
+              onClick={() => setActiveSubject(subject.id)}
               title={subject.id === "grade11" ? "الصف الحادي عشر" : undefined}
             >
               <span 
