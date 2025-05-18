@@ -159,7 +159,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md md:max-w-xl">
+      <DialogContent className="sm:max-w-md md:max-w-xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold text-right">رفع ملف جديد</DialogTitle>
         </DialogHeader>
@@ -265,7 +265,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
                   <p className="pr-1">أو اسحب وأفلت هنا</p>
                 </div>
                 {fileName ? (
-                  <p className="text-sm text-blue-600 font-medium">{fileName}</p>
+                  <p className="text-sm text-blue-600 font-medium break-all max-w-full">{fileName}</p>
                 ) : (
                   <p className="text-xs text-gray-500">
                     PDF, DOCX, PPTX أو XLSX بحجم أقصى 10 ميجابايت
