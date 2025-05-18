@@ -6,7 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { RTLProvider } from "@/components/ui/rtl-provider";
 import HomePage from "@/pages/home";
 import AdminPage from "@/pages/admin";
-import NotFound from "./pages/not-found";
+import NotFound from "@/pages/not-found";
 
 function Router() {
   return (
