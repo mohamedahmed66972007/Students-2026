@@ -38,6 +38,9 @@ export function useAuth() {
           variant: "default",
         });
         
+        // إعادة تحميل الصفحة بعد تسجيل الدخول
+        window.location.reload();
+        
         return true;
       } else {
         toast({
