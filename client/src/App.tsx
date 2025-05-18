@@ -1,20 +1,25 @@
+
 import { Switch, Route } from "wouter";
-import { queryClient } from "./lib/queryClient";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { RTLProvider } from "@/components/ui/rtl-provider";
+import Layout from "@/components/Layout";
 import HomePage from "./pages/Home";
 import AdminPage from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
+const queryClient = new QueryClient();
+
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={HomePage} />
-      <Route path="/admin" component={AdminPage} />
-      <Route component={NotFound} />
-    </Switch>
+    <Layout>
+      <Switch>
+        <Route path="/" component={HomePage} />
+        <Route path="/admin" component={AdminPage} />
+        <Route component={NotFound} />
+      </Switch>
+    </Layout>
   );
 }
 
