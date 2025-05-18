@@ -31,6 +31,13 @@ export const logout = async (): Promise<void> => {
   }
 };
 
-export const checkAdminStatus = (): boolean => {
-  return localStorage.getItem("isAdmin") === "true";
+export const checkAdminStatus = async (): Promise<boolean> => {
+  try {
+    const response = await apiRequest("GET", "/api/auth/status", {});
+    const data = await response.json();
+    return data.isAdmin === true;
+  } catch (error) {
+    console.error("Failed to check admin status:", error);
+    return false;
+  }
 };
