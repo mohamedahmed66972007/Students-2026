@@ -4,9 +4,9 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { RTLProvider } from "@/components/ui/rtl-provider";
-import HomePage from "@/pages/Home";
-import AdminPage from "@/pages/Admin";
-import NotFound from "@/pages/not-found";
+import HomePage from "./pages/Home";
+import AdminPage from "./pages/Admin";
+import NotFound from "./pages/NotFound";
 
 function Router() {
   return (
