@@ -47,11 +47,11 @@ export default function HomePage() {
     <div className="container mx-auto px-4 py-8">
       <HeroBanner />
       <div className="mt-8 space-y-6">
+        <FileFilters filters={filters} dispatch={dispatch} />
         <SubjectTabs activeSubject={filters.subject} onSelectSubject={(subject) => 
           dispatch({ type: FiltersAction.SET_SUBJECT, payload: subject })} 
         />
-        <FileFilters filters={filters} dispatch={dispatch} />
-        <FileGrid files={files || []} isLoading={isLoading} isAdmin={false} />
+        <FileGrid files={files?.files || []} isLoading={isLoading} isAdmin={false} />
       </div>
     </div>
   );
