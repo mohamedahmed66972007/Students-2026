@@ -41,7 +41,7 @@ export const useEditFile = () => {
 };
 
 export const useFiles = (params: GetFilesParams) => {
-  const { subject, grade, semester, search, page = 1, pageSize = ITEMS_PER_PAGE } = params;
+  const { subject, grade, semester, search, page = 1, pageSize = 10 } = params;
 
   const endpoint = `/api/files?${new URLSearchParams({
     ...(subject && { subject }),
@@ -61,7 +61,8 @@ export const useFiles = (params: GetFilesParams) => {
     },
     refetchOnWindowFocus: true,
     refetchOnMount: true,
-    staleTime: 0
+    staleTime: 0,
+    retry: 3
   });
 };
 
@@ -71,13 +72,17 @@ export const useUploadFile = () => {
   return useMutation({
     mutationFn: async (data: FormData) => {
       try {
+        console.log("Sending file data:", Object.fromEntries(data.entries()));
+        
         const response = await fetch("/api/files", {
           method: "POST",
           body: data,
           credentials: "include",
         });
 
+        console.log("Upload response:", response.status);
         const responseData = await response.json();
+        console.log("Response data:", responseData);
 
         if (!response.ok) {
           if (response.status === 401) {
@@ -93,12 +98,20 @@ export const useUploadFile = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/files"] });
+      // Force immediate refetch
+      queryClient.invalidateQueries({ queryKey: ["/api/files"], refetchType: "all" });
+      queryClient.refetchQueries({ queryKey: ["/api/files"], type: "active" });
+      
       toast({
         title: "تم رفع الملف بنجاح",
         description: "تم إضافة الملف إلى قاعدة البيانات",
         variant: "default",
       });
+      
+      // Reload the page after a short delay
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     },
     onError: (error: Error) => {
       toast({
