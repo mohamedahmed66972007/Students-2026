@@ -23,7 +23,8 @@ const storage_engine = multer.diskStorage({
   },
   filename: function (_req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
+    const decodedName = decodeURIComponent(escape(file.originalname));
+    cb(null, uniqueSuffix + path.extname(decodedName));
   },
 });
 
@@ -138,23 +139,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "No file uploaded" });
       }
 
+      console.log("Received file:", req.file);
+      console.log("Received body:", req.body);
+
       const fileData = {
         title: req.body.title,
-        description: req.body.description,
+        description: req.body.description || "",
         subject: req.body.subject,
         grade: req.body.grade,
         semester: req.body.semester,
-        filename: req.file.originalname,
+        filename: decodeURIComponent(escape(req.file.originalname)),
         filepath: req.file.path,
         filetype: path.extname(req.file.originalname).substring(1),
         filesize: req.file.size,
       };
 
+      console.log("Processing file data:", fileData);
+
       // Validate the file data
       const validatedData = insertFileSchema.parse(fileData);
+      console.log("Validated data:", validatedData);
 
       // Save to storage
       const file = await storage.createFile(validatedData);
+      console.log("File saved:", file);
 
       return res.status(201).json(file);
     } catch (error) {
