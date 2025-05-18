@@ -79,11 +79,11 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
       
       const formData = new FormData();
       formData.append("title", title);
-      formData.append("description", description);
+      formData.append("description", description || "");
       formData.append("subject", subject);
       formData.append("grade", grade);
       formData.append("semester", semester);
-      formData.append("file", file);
+      formData.append("file", file, file.name);
       
       await uploadFile.mutateAsync(formData);
       toast({
