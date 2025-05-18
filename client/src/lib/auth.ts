@@ -35,7 +35,10 @@ export const checkAdminStatus = async (): Promise<boolean> => {
   try {
     const response = await fetch("/api/auth/status", {
       method: "GET",
-      credentials: "include"
+      credentials: "include",
+      headers: {
+        "Accept": "application/json"
+      }
     });
     const data = await response.json();
     return data.isAdmin === true;
