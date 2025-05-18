@@ -3,12 +3,23 @@ import { login, logout, checkAdminStatus } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 
 export function useAuth() {
-  const [isAdmin, setIsAdmin] = useState<boolean>(checkAdminStatus());
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const { toast } = useToast();
 
   useEffect(() => {
-    setIsAdmin(checkAdminStatus());
+    const checkStatus = async () => {
+      try {
+        const status = await checkAdminStatus();
+        setIsAdmin(status);
+      } catch (error) {
+        console.error('Failed to check auth status:', error);
+        setIsAdmin(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    checkStatus();
   }, []);
 
   const handleLogin = async (username: string, password: string) => {
@@ -18,15 +29,14 @@ export function useAuth() {
       const success = await login({ username, password });
       
       if (success) {
-        setIsAdmin(true);
+        const status = await checkAdminStatus();
+        setIsAdmin(status);
+        
         toast({
           title: "تم تسجيل الدخول بنجاح",
           description: "مرحباً بك في لوحة التحكم",
           variant: "default",
         });
-        
-        // تحديث الصفحة لتطبيق التغييرات فوراً
-        window.location.reload();
         
         return true;
       } else {
