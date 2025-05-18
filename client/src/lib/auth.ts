@@ -33,7 +33,10 @@ export const logout = async (): Promise<void> => {
 
 export const checkAdminStatus = async (): Promise<boolean> => {
   try {
-    const response = await apiRequest("GET", "/api/auth/status", {});
+    const response = await fetch("/api/auth/status", {
+      method: "GET",
+      credentials: "include"
+    });
     const data = await response.json();
     return data.isAdmin === true;
   } catch (error) {
