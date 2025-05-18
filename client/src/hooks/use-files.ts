@@ -74,12 +74,8 @@ export const useUploadFile = () => {
         const response = await fetch("/api/files", {
           method: "POST",
           body: data,
-          credentials: "include"
+          credentials: "include",
         });
-
-        if (!response.ok) {
-          throw new Error(await response.text());
-        }
 
         const responseData = await response.json();
 
@@ -92,6 +88,7 @@ export const useUploadFile = () => {
 
         return responseData;
       } catch (error: any) {
+        console.error("Upload error:", error);
         throw new Error(error.message || "فشل في رفع الملف");
       }
     },
