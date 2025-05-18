@@ -74,11 +74,12 @@ export const useUploadFile = () => {
         const response = await fetch("/api/files", {
           method: "POST",
           body: data,
-          credentials: "include",
-          headers: {
-            "Accept": "application/json",
-          }
+          credentials: "include"
         });
+
+        if (!response.ok) {
+          throw new Error(await response.text());
+        }
 
         const responseData = await response.json();
 
